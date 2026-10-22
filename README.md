@@ -1,4 +1,4 @@
-# BRACIS — Sliding-window aggregation experiments
+# Evaluating the Power Measure with Choquet-Based Generalizations with different applications
 
 Python implementation of a Poisson-based weighted moving average (PMA) and nine Power Measure-based fuzzy integral variants, evaluated by one-step-ahead prediction MAE.
 
