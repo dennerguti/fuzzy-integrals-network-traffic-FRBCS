@@ -1,46 +1,76 @@
-# Evaluating the Power Measure with Choquet-Based Generalizations with different applications
 
-Python implementation of a Poisson-based weighted moving average (PMA) and nine Power Measure-based fuzzy integral variants, evaluated by one-step-ahead prediction MAE.
+# Fuzzy Integrals for Network Traffic Prediction
 
-## Setup
+Python implementation of Choquet-based fuzzy integrals using the Power Measure for network traffic prediction.
+
+This repository provides the source code and dataset used in the network traffic prediction experiments described in the paper *"Evaluating the Power Measure with Choquet-Based Generalizations with Different Applications"*.
+
+## Project Structure
+
+```text
+.
+├── main.py
+├── models.py
+├── experiment.py
+├── plots.py
+├── requirements.txt
+|── compilado.csv
+└── README.md
+```
+
+## Requirements
+
+- Python 3.10 or higher
+- Dependencies listed in `requirements.txt`
+
+## Installation
+
+Clone the repository:
 
 ```bash
-python -m venv .venv
+git clone https://github.com/dennerguti/fuzzy-integrals-network-traffic.git
+cd fuzzy-integrals-network-traffic
+```
+
+Install the required dependencies:
+
+```bash
 pip install -r requirements.txt
 ```
 
-## Run
+## Dataset
 
-Place your dataset locally (for example `data/compilado.csv`) and run:
+The experiments use network traffic data derived from the CIC-IDS2017 dataset.
+
+The processed dataset is provided in:
+
+```text
+compilado.csv
+```
+
+No additional dataset download is required.
+
+## Usage
+
+Run the experiments using:
 
 ```bash
-python main.py --input data/compilado.csv --column 1 --output outputs
+python main.py --input compilado.csv
 ```
 
-The default input column is the **second column** (zero-based index 1), as in the original notebook. The CSV is read with pandas defaults (header row and comma separator). Adapt loading if your dataset uses another format.
+The implementation includes:
 
-The experiment tests windows 5–70 in steps of 5, q=0.1–1.0 in steps of 0.1, and nine methods (Choquet, CC-min, CT, CF-AVG, CF-nonAVG, CF1F2, dCF, dCC, dXC), plus PMA. Predictions are rounded with Python `round` before MAE calculation, matching the notebook.
+- Poisson Moving Average (PMA) baseline.
+- Choquet integral and its generalizations.
+- Power Measure with different values of q.
+- Sliding-window-based network traffic prediction.
+- Mean Absolute Error (MAE) evaluation.
+- Experimental results and visualizations.
 
-## Files
+## Reference
 
-- `models.py`: PMA weights and fuzzy-integral formulas.
-- `experiment.py`: sliding-window evaluation and CSV export.
-- `plots.py`: plotting utilities and numerical method comparisons.
-- `main.py`: command-line entry point.
+This repository accompanies the research paper:
 
-Outputs include `resultados_completos.csv` (long format) and `resultados_por_funcao.csv` (wide format, semicolon separator and decimal comma).
+**Evaluating the Power Measure with Choquet-Based Generalizations with Different Applications**
 
-## Optional charts
-
-```python
-import pandas as pd
-from plots import comparar_metodos_q, plotar_metodos, plotar_funcao_por_q
-
-df = pd.read_csv("outputs/resultados_completos.csv")
-plotar_metodos(df, valores_q=[0.5])
-plotar_funcao_por_q(df, metodo_escolhido="Choquet_dCC")
-tabela = comparar_metodos_q(df, "Choquet_dCC", 0.2, "Choquet_CT", 0.1)
-print(tabela)
-```
-
-**Reproducibility note:** The original mathematical expressions and rounding policy were preserved. The notebook did not include the underlying `compilado.csv`, so results cannot be independently reproduced without that dataset. No model-validation or methodology changes were introduced.
+For theoretical foundations, methodology, and experimental analysis, please refer to the paper.
